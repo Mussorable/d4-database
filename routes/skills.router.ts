@@ -24,8 +24,10 @@ const upload = multer({ storage: storage });
 router.get("/skills", (req: Request, res: Response, next: NextFunction) => {
   skillSchema
     .find()
-    .then((result) => res.json(result))
-    .catch((error) => res.json(error));
+    .then((skills) => {
+      res.status(202).json(skills);
+    })
+    .catch((error) => res.status(404).json(error));
 });
 
 router.post(
