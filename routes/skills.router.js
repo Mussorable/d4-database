@@ -21,8 +21,10 @@ const upload = (0, multer_1.default)({ storage: storage });
 router.get("/skills", (req, res, next) => {
     skill_schema_1.default
         .find()
-        .then((result) => res.json(result))
-        .catch((error) => res.json(error));
+        .then((skills) => {
+        res.status(202).json(skills);
+    })
+        .catch((error) => res.status(404).json(error));
 });
 router.post("/add-skill", upload.single("skillImage"), (req, res, next) => {
     if (!req.file) {
@@ -30,16 +32,6 @@ router.post("/add-skill", upload.single("skillImage"), (req, res, next) => {
         error.statusCode = 404;
         throw error;
     }
-    // const skill = {
-    //   title: req.body.title,
-    //   description: req.body.description,
-    //   img: {
-    //     data: fs.readFileSync(
-    //       path.join(__dirname + "/uploads/" + req.file.filename)
-    //     ),
-    //     contentType: "image/jpeg",
-    //   },
-    // };
     const skill = new skill_schema_1.default({
         title: req.body.title,
         description: req.body.description,
