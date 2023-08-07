@@ -5,6 +5,12 @@ import fs from "fs";
 import path from "path";
 import skillSchema from "../models/skill.schema";
 
+interface ConvertedSkills {
+  title: string;
+  description: string;
+  imageURL: string;
+}
+
 interface ResponseError extends Error {
   statusCode?: number;
 }
@@ -25,7 +31,20 @@ router.get("/skills", (req: Request, res: Response, next: NextFunction) => {
   skillSchema
     .find()
     .then((skills) => {
-      res.status(202).json(skills);
+      const convertedSkills: ConvertedSkills[] = [];
+      skills.forEach((skill) => {
+        if (skill.img && skill.img.data) {
+          convertedSkills.push({
+            title: skill.title,
+            description: skill.description,
+            imageURL: `data:${
+              skill.img.contentType
+            };base64,${skill.img.data.toString("base64")}`,
+          });
+        }
+      });
+      console.log(convertedSkills);
+      res.status(202).json(convertedSkills);
     })
     .catch((error) => res.status(404).json(error));
 });

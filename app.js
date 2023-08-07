@@ -6,10 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 const config_json_1 = require("./config.json");
 const skills_router_1 = __importDefault(require("./routes/skills.router"));
 const startApplication = async () => {
     const app = (0, express_1.default)();
+    app.use((0, cors_1.default)());
     app.use(body_parser_1.default.urlencoded({ extended: true }));
     app.use(body_parser_1.default.json());
     app.use(skills_router_1.default);

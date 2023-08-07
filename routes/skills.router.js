@@ -22,7 +22,18 @@ router.get("/skills", (req, res, next) => {
     skill_schema_1.default
         .find()
         .then((skills) => {
-        res.status(202).json(skills);
+        const convertedSkills = [];
+        skills.forEach((skill) => {
+            if (skill.img && skill.img.data) {
+                convertedSkills.push({
+                    title: skill.title,
+                    description: skill.description,
+                    imageURL: `data:${skill.img.contentType};base64,${skill.img.data.toString("base64")}`,
+                });
+            }
+        });
+        console.log(convertedSkills);
+        res.status(202).json(convertedSkills);
     })
         .catch((error) => res.status(404).json(error));
 });
