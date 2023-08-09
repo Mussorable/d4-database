@@ -22,9 +22,14 @@ const classSchema = new Schema({
         data: Buffer,
         contentType: String,
     },
-    // skills: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "Skills",
-    // },
+    skills: [
+        {
+            _id: {
+                type: Schema.Types.ObjectId,
+                ref: "Skills",
+            },
+            title: String,
+        },
+    ],
 });
 exports.default = mongoose_1.default.model("Classes", classSchema);
