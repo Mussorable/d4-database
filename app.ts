@@ -4,7 +4,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import { mongoDB } from "./config.json";
+
 import skillRouter from "./routes/skills.router";
+import classesRouter from "./routes/classes.router";
 
 const startApplication = async () => {
   const app = express();
@@ -12,7 +14,8 @@ const startApplication = async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  app.use(skillRouter);
+  app.use("/classes", classesRouter);
+  app.use("/skills", skillRouter);
 
   try {
     const connect = await mongoose.connect(mongoDB);

@@ -9,12 +9,14 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const config_json_1 = require("./config.json");
 const skills_router_1 = __importDefault(require("./routes/skills.router"));
+const classes_router_1 = __importDefault(require("./routes/classes.router"));
 const startApplication = async () => {
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)());
     app.use(body_parser_1.default.urlencoded({ extended: true }));
     app.use(body_parser_1.default.json());
-    app.use(skills_router_1.default);
+    app.use("/classes", classes_router_1.default);
+    app.use("/skills", skills_router_1.default);
     try {
         const connect = await mongoose_1.default.connect(config_json_1.mongoDB);
         app.listen(8080);
