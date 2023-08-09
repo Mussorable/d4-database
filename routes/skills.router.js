@@ -9,7 +9,7 @@ const skills_controller_1 = require("../controller/skills.controller");
 const router = (0, express_1.Router)();
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "routes/uploads");
+        cb(null, "./uploads");
     },
     filename: (req, file, cb) => {
         cb(null, file.fieldname + "-" + Date.now() + ".png");

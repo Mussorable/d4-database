@@ -15,6 +15,13 @@ const skillSchema = new Schema({
     data: Buffer,
     contentType: String,
   },
+  hero: {
+    _id: {
+      type: Schema.Types.ObjectId,
+      ref: "Classes",
+    },
+    title: String,
+  },
 });
 
 export default mongoose.model("Skills", skillSchema);
