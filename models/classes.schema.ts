@@ -19,6 +19,10 @@ const classSchema = new Schema({
     data: Buffer,
     contentType: String,
   },
+  // skills: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Skills",
+  // },
 });
 
 export default mongoose.model("Classes", classSchema);
