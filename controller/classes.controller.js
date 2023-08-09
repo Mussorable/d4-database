@@ -8,12 +8,26 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const rootUtils_1 = require("../rootUtils");
 const classes_schema_1 = __importDefault(require("../models/classes.schema"));
-const getClasses = (req, res, next) => { };
+const getClasses = (req, res, next) => {
+    classes_schema_1.default.find().then((classes) => {
+        const convertedClasses = [];
+        classes.forEach((hero) => {
+            if (hero.classIcon && hero.classHero) {
+                convertedClasses.push({
+                    title: hero.title,
+                    description: hero.description,
+                    smallIcon: `data:${hero.classIcon.contentType};base64,${hero.classIcon.data?.toString("base64")}`,
+                    heroImage: `data:${hero.classHero.contentType};base64,${hero.classHero.data?.toString("base64")}`,
+                });
+            }
+        });
+        res.status(202).json(convertedClasses);
+    });
+};
 exports.getClasses = getClasses;
 const getCurrentClass = (req, res, next) => { };
 exports.getCurrentClass = getCurrentClass;
 const addClass = (req, res, next) => {
-    console.log(rootUtils_1.rootPath);
     if (!req.files || req.files.length !== 2) {
         return res.status(400).json({
             message: "Please upload exactly two files (SVG and PNG).",

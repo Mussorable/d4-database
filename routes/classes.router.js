@@ -25,8 +25,6 @@ const fileFilter = (req, file, cb) => {
     }
 };
 const upload = (0, multer_1.default)({ storage: storage, fileFilter: fileFilter });
-router.get("/get-all", (req, res, next) => {
-    res.json({ message: "worked" });
-});
+router.get("/get-all", classes_controller_1.getClasses);
 router.post("/add-class", upload.array("classImages", 2), classes_controller_1.addClass);
 exports.default = router;
