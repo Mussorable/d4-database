@@ -5,11 +5,33 @@ import { rootPath } from "../rootUtils";
 
 import classesSchema from "../models/classes.schema";
 
-export const getClasses = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {};
+interface ConvertedClasses {
+  title: string;
+  description: String;
+  smallIcon: string;
+  heroImage: string;
+}
+
+export const getClasses = (req: Request, res: Response, next: NextFunction) => {
+  classesSchema.find().then((classes) => {
+    const convertedClasses: ConvertedClasses[] = [];
+    classes.forEach((hero) => {
+      if (hero.classIcon && hero.classHero) {
+        convertedClasses.push({
+          title: hero.title,
+          description: hero.description,
+          smallIcon: `data:${
+            hero.classIcon.contentType
+          };base64,${hero.classIcon.data?.toString("base64")}`,
+          heroImage: `data:${
+            hero.classHero.contentType
+          };base64,${hero.classHero.data?.toString("base64")}`,
+        });
+      }
+    });
+    res.status(202).json(convertedClasses);
+  });
+};
 
 export const getCurrentClass = (
   req: Request,
@@ -18,7 +40,6 @@ export const getCurrentClass = (
 ) => {};
 
 export const addClass = (req: Request, res: Response, next: NextFunction) => {
-  console.log(rootPath);
   if (!req.files || req.files.length !== 2) {
     return res.status(400).json({
       message: "Please upload exactly two files (SVG and PNG).",
