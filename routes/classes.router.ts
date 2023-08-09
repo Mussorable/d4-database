@@ -1,7 +1,11 @@
 import { Router, Request } from "express";
 import multer from "multer";
 
-import { addClass, getClasses } from "../controller/classes.controller";
+import {
+  addClass,
+  getClasses,
+  getCurrentClass,
+} from "../controller/classes.controller";
 
 const router = Router();
 
@@ -30,7 +34,7 @@ const fileFilter = (
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.get("/get-all", getClasses);
-
+router.post("/get-class", getCurrentClass);
 router.post("/add-class", upload.array("classImages", 2), addClass);
 
 export default router;
